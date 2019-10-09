@@ -1,34 +1,33 @@
 #include<stdio.h>
 #include<stdlib.h>
+#define size 10
 struct node
 {
     int info;
     struct node *link;
 };
-typedef struct node *NODE;
+typedef struct node* NODE;
 NODE TOP=NULL;
-int c=0,size=4;
+int c=0;
 NODE ptr;
 NODE temp;
+
 NODE getnode()
 {
-    int x;
+    NODE x;
     x=(NODE)malloc(sizeof(struct node));
-    if(x==NULL)
-    {
-        printf("out of memory");
-        exit(0);
-    }
     return x;
 }
 void push()
 {
     int item;
+    printf("Enter the item to be inserted:\n");
+    scanf("%d",&item);
     NODE temp;
     temp=getnode();
     if(c==size)
     {
-        printf("overflow");
+        printf("Overflow\n");
     }
     else
     {
@@ -40,15 +39,14 @@ void push()
 }
 void pop()
 {
-    NODE temp;
     temp=TOP;
     if(TOP==NULL)
     {
-        printf("underflow");
+        printf("Underflow\n");
     }
     else
     {
-        printf("deleted item is %d",TOP->info);
+        printf("Deleted item is %d\n",TOP->info);
         temp=TOP;
         TOP=TOP->link;
         free(temp);
@@ -60,9 +58,9 @@ void display()
     ptr=TOP;
     while(TOP!=NULL)
     {
-        printf("%d",TOP->info);
+        printf("%d ",TOP->info);
         TOP=TOP->link;
-    }
+    }printf("\n");
 }
 void main()
 {
@@ -70,22 +68,22 @@ void main()
     do
     {
         int item;
-        printf("1.push\n 2.pop\n3.display\n");
-        printf("enter option");
+        printf("1.Push 2.Pop 3.Display 4.Exit\n");
+        printf("Enter option\n");
         scanf("%d",&op);
         switch(op)
         {
-            case 1: printf("enter the item to be inserted");
-                    scanf("%d",&item);
-                    push();
+            case 1: push();
                     break;
             case 2: pop();
                     break;
             case 3: display();
                     break;
+            case 4:exit(0);
+            default:printf("Wrong option");
         }
     }
     while(op!=4);
 }
-        
+
      
