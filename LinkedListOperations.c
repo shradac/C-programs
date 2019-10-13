@@ -15,13 +15,15 @@ struct node
 typedef struct node *NODE;
 NODE first=NULL;
 NODE temp;
+NODE new;
 NODE ptr;
 NODE prev;
 NODE cur;
+
 NODE getnode()
 {
     NODE x;
-    x=malloc(sizeof(structnode));
+    x=malloc(sizeof(struct node));
     if(x==NULL)
     {
         printf("overflow");
@@ -31,9 +33,8 @@ return x;
 }
 void insertatfront()
 {
-    int item;
-    NODE temp;
     temp=getnode();
+    int item;
     printf("enter the element to be inserted:\n");
     scanf("%d",&item);
     temp->info=item;
@@ -42,7 +43,6 @@ void insertatfront()
 }
 void deleteatfront()
 {
-    NODE temp;
     temp=first;
     if(first==NULL)
     {
@@ -54,30 +54,32 @@ void deleteatfront()
         first=first->link;
         printf("deleted item is %d",temp->info);
         free(temp);
-    
+   
     }
 }
 void insertatend()
 {
     int item;
+    printf("enter the item to be inserted:\n");
+    scanf("%d",&item);
     temp=getnode();
-    temp->info=item;
-    if(first->link=NULL)
+    temp->info = item;
+    if(first == NULL)
     {
-        temp->link=NULL;
-        first=temp;
+    first = temp;
     }
     else
     {
-        ptr=first;
-        while(ptr->link!=NULL)
-        {
-            ptr=ptr->link;
-        
-        }
-        temp->link=NULL;
-        ptr->link=temp;
+    ptr = first;
+    while(ptr->link != NULL)
+    {
+        ptr = ptr->link;
     }
+    temp->link = NULL;
+    ptr->link = temp;
+    }
+   
+
 }
 void deleteatend()
 {
@@ -104,15 +106,20 @@ void deleteatend()
             temp=cur;
             prev->link=NULL;
             printf("%d was removed:\n",temp->info);
-            
-            
+           
+           
         }
-    
+   
 }
 void insertatposition()
 {
-    int item,pos,count=2;
+    int item,pos,count=1;
+    printf("enter the element to inserted\n");
+    scanf("%d",&item);
+    printf("enter the position\n");
+    scanf("%d",&pos);
     temp=getnode();
+    temp->info = item;
     if(first==NULL)
     {
         temp->link=NULL;
@@ -127,104 +134,95 @@ void insertatposition()
     {
         count=2;
         ptr=first;
-        while(count<pos-1)
+        while(count<pos)
         {
-            ptr=ptr->link;
-            ptr->link=temp;
-        
+            ptr = ptr->link;
+            count++;
         }
+        temp->link = ptr->link;
+        ptr->link = temp;
+
     }
 }
 void deleteatposition()
 {
     int pos,count;
+    printf("enter the position to delete");
+    scanf("%d",&pos);
     if(first==NULL)
     {
-        printf("list is empty\n");
+        printf("list is empty \n");
     }
     else if(first->link==NULL)
     {
         temp=first;
         first=NULL;
-        printf("%d was removed\n",temp->info);
-        free(temp);
+        printf("%d was removed \n",temp->info);
     }
     else
     {
-        ptr=first;
-        if(pos==1)
+        count=2;
+        cur=first;
+        while(count<=pos)
         {
-            temp=first;
-            first=first->link;
-            printf("%d was removed\n",temp->info);
-            free(temp);
+            prev=cur;
+            cur=cur->link;
+            count++;
         }
-        else
-        {
-            count=2;
-            prev=NULL;
-            cur=first;
-            while(count<=pos)
-            {
-                prev=cur;
-                cur=cur->link;
-                count++;
-            
-            }
-            prev->link=cur->link;
-            temp=cur;
-            printf("%d was removed\n",temp->info);
-            free(temp);
-            
-        }
+        prev->link=cur->link;
+        temp=cur;
+        printf("%d was removed \n",temp->info);
+        free(temp);
     }
-    
+   
 }
 void display()
 {
-    NODE ptr=first;
+    ptr=first;
     while(ptr!=NULL)
     {
         printf("%d",ptr->info);
         ptr=ptr->link;
-        printf("\n");
     }
 }
 void main()
 {
-    int op,item,pos;
+    int op,item,pos,choice;
     do{
-        printf("1. insertatfront\n 2. deleteatfront\n 3.insertatend\n 4.deleteatend\n 5.insertatposition\n 6. deleteatpositio\n 7. display\n");
+        printf("1.Insert 2.Delete 3.Display 4.Exit\n");
         printf("enter option\n");
-        scanf("%d", &op);
+        scanf("%d",&op);
         switch(op)
         {
-            case 1:printf("enter item to be inserted");
-                   scanf("%d",&item);
-                    insertatfront();
+            case 1: printf("1.Insert at front 2.Insert at end 3.Insert at position");
+            scanf("%d",&choice);
+            switch(choice)
+            {
+            case 1: insertatfront();
             break;
-            case 2:deleteatfront();
+            case 2: insertatend();
             break;
-            case 3:printf("enter the item to inserted:\n");
-                   scanf("%d",&item);
-                   insertatend();
-                   break;
-            case 4:deleteatend();
+            case 3: insertatposition();
             break;
-            case 5:printf("enter the element to inserted\n");
-                   scanf("%d",&item);
-                   printf("enter the position\n");
-                   scanf("%d",&pos);
-                   insertatposition();
-                   break;
-            case 6:printf("enter the position\n");
-                   scanf("%d",&pos);
-                   deleteatposition();
-                   break;
-            case 7:display();
-            case 8:exit(0);
-            default:printf("invalid option\n");
+            }
+            break;
+            case 2: printf("1.Delete at front 2.Delete at end 3.Delete at position");
+            scanf("%d",&choice);
+            switch(choice)
+            {
+            case 1: deleteatfront();
+            break;
+            case 2: deleteatend();
+            break;
+            case 3: deleteatposition();
+            break;
+            }
+            break;
+            case 3: display();
+            break;
+            case 4: exit(0);
         }
-        
-    }while(op!=9);
+       
+    }while(op!=5);
 }
+
